@@ -10,12 +10,10 @@ const User = require('./Entities/User.js')(sequelize);
 
 const router = express.Router();
 
-router.post('/', async function (req, res) {
-
-  console.log(req.body);
+router.post('/inserirUsuario', async function (req, res) {
 
   const user = User.build({name: req.body.name,
-      surname: req.body.surName,
+      surname: req.body.surname,
       mail: req.body.mail,
       user: req.body.user,
       password: req.body.password,
@@ -25,10 +23,22 @@ router.post('/', async function (req, res) {
   try{
     await User.sync();
     await user.save();
-    console.log('salvou com sucesso');
+    res.send(true);
   }catch(error){
     console.error('erro ao salvar: ' + error);
+    res.send(false);
   }
+  });
+
+  router.post('/login', async function(req, res){
+
+    const user = await  User.findOne({
+      where:{user: req.body.user, password: req.body.password}})
+    if(user === null){
+      res.send(false);
+    }else{
+      res.send(true);
+    }
   });
 
 module.exports = router;
