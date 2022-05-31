@@ -1,6 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
-
-const sequelize = new Sequelize('mysql::memory:');
+const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) =>{
 const User = sequelize.define('User', {
@@ -17,15 +15,17 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING(100),
     allowNull:false,
     unique:true
-  }
-  ,
-  user: {type:DataTypes.STRING(50),
+  },
+  user: {
+    type:DataTypes.STRING(50),
     allowNull:false,
-    unique:true},
+    unique:true
+  },
 
   password: DataTypes.STRING,
   tipo: DataTypes.INTEGER(2)
-},{
+},
+{
   freezeTableName: true,
   timestamps: true
 });
